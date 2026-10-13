@@ -52,3 +52,4 @@ compiled-output.*
 exported-theme-output/
 scratch/
 test-theme.zip
+prisma/dev.db
