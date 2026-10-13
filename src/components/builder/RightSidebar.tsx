@@ -501,7 +501,7 @@ export default function RightSidebar() {
               <label className="text-[11px] font-sans font-semibold text-brand-body">Theme Name</label>
               <input
                 type="text"
-                value={themeDoc.metadata.name}
+                value={themeDoc.metadata?.name ?? ""}
                 className="w-full px-3 py-1.5 border border-brand-hairline rounded-sm text-xs font-sans bg-brand-canvas-soft cursor-not-allowed"
                 disabled
               />
@@ -510,7 +510,7 @@ export default function RightSidebar() {
               <label className="text-[11px] font-sans font-semibold text-brand-body">Author</label>
               <input
                 type="text"
-                value={themeDoc.metadata.author}
+                value={themeDoc.metadata?.author ?? ""}
                 className="w-full px-3 py-1.5 border border-brand-hairline rounded-sm text-xs font-sans bg-brand-canvas-soft cursor-not-allowed"
                 disabled
               />
