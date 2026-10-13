@@ -164,6 +164,11 @@ import * as cardsCanvas from "./cards/canvas";
 import * as cardsSidebar from "./cards/sidebar";
 import * as cardsCompiler from "./cards/compiler";
 
+import * as pagination from "./pagination/schema";
+import * as paginationCanvas from "./pagination/canvas";
+import * as paginationSidebar from "./pagination/sidebar";
+import * as paginationCompiler from "./pagination/compiler";
+
 export const componentRegistry: Record<string, ComponentDefinition> = {
   heading: { type: "heading", ...heading, ...headingCanvas, ...headingSidebar, ...headingCompiler },
   text: { type: "text", ...text, ...textCanvas, ...textSidebar, ...textCompiler },
@@ -198,4 +203,5 @@ export const componentRegistry: Record<string, ComponentDefinition> = {
   "related-posts": { type: "related-posts", ...relatedPosts, ...relatedPostsCanvas, ...relatedPostsSidebar, ...relatedPostsCompiler },
   "post-navigation": { type: "post-navigation", ...postNavigation, ...postNavigationCanvas, ...postNavigationSidebar, ...postNavigationCompiler },
   cards: { type: "cards", ...cards, ...cardsCanvas, ...cardsSidebar, ...cardsCompiler },
+  pagination: { type: "pagination", ...pagination, ...paginationCanvas, ...paginationSidebar, ...paginationCompiler },
 };

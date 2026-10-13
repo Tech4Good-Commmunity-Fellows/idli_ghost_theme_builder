@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Missing userId parameter" }, { status: 400 });
     }
 
-    logger.info({ userId }, "Fetching theme record from PostgreSQL");
+    logger.info({ userId }, "Fetching theme record from SQLite");
     const record = await prisma.theme.findUnique({
       where: { userId },
     });
@@ -23,8 +23,11 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ document: null });
     }
 
+    // document is stored as a JSON string in SQLite — parse it back
+    const parsed = typeof record.document === "string" ? JSON.parse(record.document) : record.document;
+
     logger.info({ userId }, "Theme successfully loaded");
-    return NextResponse.json({ document: record.document });
+    return NextResponse.json({ document: parsed });
   } catch (error: any) {
     logger.error({ err: error }, "API GET /api/theme transaction failed");
     return NextResponse.json({ error: error.message || "Failed to load theme" }, { status: 500 });
@@ -42,17 +45,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing userId or document payload" }, { status: 400 });
     }
 
-    logger.info({ userId }, "Serializing theme AST");
-    const serializedDoc = JSON.parse(JSON.stringify(document));
+    // Serialize to string for SQLite storage
+    logger.info({ userId }, "Serializing theme AST to JSON string");
+    const serializedDoc = JSON.stringify(document);
 
-    logger.info({ userId }, "Upserting theme record in PostgreSQL database");
+    logger.info({ userId }, "Upserting theme record in SQLite database");
     await prisma.theme.upsert({
       where: { userId },
       update: { document: serializedDoc },
       create: { userId, document: serializedDoc },
     });
 
-    logger.info({ userId }, "Theme successfully updated");
+    logger.info({ userId }, "Theme successfully saved");
     return NextResponse.json({ success: true });
   } catch (error: any) {
     logger.error({ err: error }, "API POST /api/theme transaction failed");
